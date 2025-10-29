@@ -3,7 +3,7 @@ title: "Whole-genome sequencing of 197 cases with Parkinson’s Disease reveals 
 collection: publications
 category: manuscripts
 permalink: https://doi.org/10.1101/2025.10.19.25338055
-excerpt: 'This paper is about the number 1. The number 2 is left for future work.'
+excerpt: 'This study represents one of the first WGS-based genetic investigations of PD in India with both EOPD and LOPD cases. Novel variants in PRKN, GBA1, LRRK2, ATXN2 and SNCA point to the presence of population-specific variants, and reinforce the importance of genetic studies in diverse populations.'
 date: 2025-10-23
 venue: 'medRxiv'
 slidesurl: '' #'https://academicpages.github.io/files/slides1.pdf'

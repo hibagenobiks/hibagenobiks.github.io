@@ -28,7 +28,8 @@ author:
   pronouns         : "she/her"  
   bio              : "Short biography for the left-hand sidebar"
   location         : "Bangalore, India"
-  employer         : "Centre for Brain Research(CBR), Indian Institute of Science(IISc)"
+  department       : "Centre for Brain Research(CBR)"
+  institution      : "Indian Institute of Science(IISc)"
   uri              : # URL
   email            : "hibaali@cbr-iisc.ac.in" 
 
