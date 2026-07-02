@@ -1,0 +1,99 @@
+<svg viewBox="0 0 1000 800" xmlns="http://www.w3.org/2000/svg" font-family="'Inter','Helvetica Neue',Arial,sans-serif">
+  <defs>
+    <marker id="arrow1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+  <style>
+    .eyebrow{font-size:12px;font-weight:600;letter-spacing:2px;fill:#64748B;}
+    .title{font-size:23px;font-weight:700;fill:#14213D;}
+    .box-primary-text{font-size:14px;font-weight:700;fill:#FFFFFF;}
+    .box-outline-text{font-size:13px;font-weight:700;fill:#14213D;}
+    .desc{font-size:12.5px;fill:#475569;}
+    .desc-sm{font-size:11.5px;fill:#64748B;}
+    .label-bold{font-size:13.5px;font-weight:700;fill:#14213D;}
+    .note-text{font-size:12.5px;font-style:italic;fill:#334155;}
+    .arrow{stroke:#94A3B8;stroke-width:1.75;fill:none;marker-end:url(#arrow1);}
+  </style>
+
+  <rect width="1000" height="800" fill="#FFFFFF"/>
+
+  <text x="60" y="42" class="eyebrow">FIGURE 1</text>
+  <text x="60" y="70" class="title">Architecture of the Human Reference Genome</text>
+  <line x1="60" y1="86" x2="940" y2="86" stroke="#E2E8F0" stroke-width="1.5"/>
+
+  <!-- Root box -->
+  <rect x="390" y="112" width="220" height="52" rx="6" fill="#1B4F72"/>
+  <text x="500" y="144" text-anchor="middle" class="box-primary-text">Human Reference Genome</text>
+
+  <!-- branch lines -->
+  <path d="M500,164 L500,186" class="arrow" marker-end="none" stroke="#94A3B8" stroke-width="1.75"/>
+  <path d="M240,186 L760,186" stroke="#94A3B8" stroke-width="1.75" fill="none"/>
+  <path d="M240,186 L240,208" class="arrow"/>
+  <path d="M760,186 L760,208" class="arrow"/>
+
+  <!-- Primary Assembly box -->
+  <rect x="120" y="210" width="240" height="52" rx="6" fill="#FFFFFF" stroke="#1B4F72" stroke-width="1.75"/>
+  <text x="240" y="242" text-anchor="middle" class="box-outline-text" style="fill:#1B4F72">Primary Assembly</text>
+
+  <text x="240" y="292" text-anchor="middle" class="desc">One representative sequence per</text>
+  <text x="240" y="310" text-anchor="middle" class="desc">chromosomal region (chr1&#8211;22, X, Y, MT) &#8212;</text>
+  <text x="240" y="328" text-anchor="middle" class="desc">the backbone used for standard alignment.</text>
+
+  <!-- Additional Components box -->
+  <rect x="640" y="210" width="240" height="52" rx="6" fill="#FFFFFF" stroke="#17A398" stroke-width="1.75"/>
+  <text x="760" y="242" text-anchor="middle" class="box-outline-text" style="fill:#0F7A70">Additional Components</text>
+
+  <path d="M760,262 L760,286" class="arrow"/>
+
+  <!-- Container for 5 items -->
+  <rect x="480" y="288" width="460" height="330" rx="8" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1.25"/>
+
+  <!-- Row template: bullet + label + desc -->
+  <!-- Row 1 -->
+  <rect x="504" y="314" width="12" height="12" fill="#17A398"/>
+  <text x="528" y="325" class="label-bold">ALT Contigs</text>
+  <text x="528" y="343" class="desc-sm">Alternate representations of structurally</text>
+  <text x="528" y="358" class="desc-sm">divergent loci (e.g. immune regions,</text>
+  <text x="528" y="373" class="desc-sm">segmental duplications).</text>
+
+  <line x1="504" y1="388" x2="916" y2="388" stroke="#E2E8F0" stroke-width="1"/>
+
+  <!-- Row 2 -->
+  <rect x="504" y="400" width="12" height="12" fill="#17A398"/>
+  <text x="528" y="411" class="label-bold">Decoy Sequences</text>
+  <text x="528" y="429" class="desc-sm">Absorb reads with no true home in the</text>
+  <text x="528" y="444" class="desc-sm">primary assembly, reducing false</text>
+  <text x="528" y="459" class="desc-sm">positive calls elsewhere.</text>
+
+  <line x1="504" y1="474" x2="916" y2="474" stroke="#E2E8F0" stroke-width="1"/>
+
+  <!-- Row 3 -->
+  <rect x="504" y="486" width="12" height="12" fill="#17A398"/>
+  <text x="528" y="497" class="label-bold">HLA Haplotypes</text>
+  <text x="528" y="515" class="desc-sm">Curated allelic sequences for the highly</text>
+  <text x="528" y="530" class="desc-sm">polymorphic immune loci of the MHC region.</text>
+
+  <line x1="504" y1="546" x2="916" y2="546" stroke="#E2E8F0" stroke-width="1"/>
+
+  <!-- Row 4 -->
+  <rect x="504" y="558" width="12" height="12" fill="#17A398"/>
+  <text x="528" y="569" class="label-bold">Unlocalized Scaffolds</text>
+  <text x="528" y="587" class="desc-sm">Sequence assigned to a chromosome,</text>
+  <text x="528" y="602" class="desc-sm">but with unknown position within it.</text>
+
+  <line x1="504" y1="618" x2="916" y2="618" stroke="#E2E8F0" stroke-width="1"/>
+
+  <!-- Row 5 -->
+  <rect x="504" y="588" width="0" height="0"/>
+  <rect x="504" y="628" width="12" height="12" fill="#17A398"/>
+  <text x="528" y="639" class="label-bold">Unplaced Contigs</text>
+  <text x="528" y="657" class="desc-sm">Sequence not yet assigned to any</text>
+  <text x="528" y="672" class="desc-sm">chromosome at all.</text>
+
+  <!-- Footer note -->
+  <rect x="60" y="722" width="880" height="56" rx="6" fill="#F1F5F9"/>
+  <rect x="60" y="722" width="4" height="56" fill="#17A398"/>
+  <text x="82" y="746" class="note-text">The Full Analysis Set provides a more complete representation of human genomic</text>
+  <text x="82" y="764" class="note-text">diversity but introduces additional analytical complexity.</text>
+</svg>
