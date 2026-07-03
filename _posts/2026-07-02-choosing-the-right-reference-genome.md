@@ -1,18 +1,5 @@
 ---
 title: "Choosing the Right Reference Genome: Improving the Genetic Yield of Neurogenomic Disorders"
-*Technical Note*
-
-**Author:** Hiba Ali
-
-**Published:** July 2, 2026
-
-**Last Updated:** July 2, 2026
-
-**Reading Time:** ~12 min
-
-**Keywords:** Neurogenomics • Clinical Genomics • Whole Genome Sequencing • Reference Genome • GRCh38 • ALT Contigs • GBA1 • Parkinson's Disease
-
------
 date: 2026-07-02
 permalink: /neurogenomics/reference-genome-genetic-yield/
 tags:
@@ -32,6 +19,14 @@ share: true
 ---
 
 # Choosing the Right Reference Genome: Improving the Genetic Yield of Neurogenomic Disorders
+
+*Technical Note*
+
+**Author:** Hiba Ali
+**Published:** July 2, 2026
+**Last Updated:** July 2, 2026
+**Reading Time:** ~12 min
+**Keywords:** Neurogenomics • Clinical Genomics • Whole Genome Sequencing • Reference Genome • GRCh38 • ALT Contigs • GBA1 • Parkinson's Disease
 
 > *Every sequencing experiment begins with a reference genome. Whether it ends with a diagnosis may depend on choosing the right one.*
 
