@@ -47,8 +47,7 @@
   <header class="article-head">
     <div class="crumbs"><a href="/notes/">Writing</a> / Technical note</div>
     <h1>Choosing the right reference genome: improving the genetic yield of neurogenomic disorders</h1>
-    <p class="dek">Every sequencing experiment begins with a reference genome. Whether it ends with a diagnosis may depend on choosing the right one.</p>
-    <div class="byline"><span>By <strong>Hiba Ali</strong></span><span>2 July 2026</span><span>~13 min read</span></div>
+    <div class="byline"><span>By <strong>Hiba Ali</strong></span><span>2 July 2026</span><span>Updated 3 November 2026</span><span>~15 min read</span></div>
     <ul class="chips"><li>Neurogenomics</li><li>Clinical genomics</li><li>Whole-genome sequencing</li><li>Reference genome</li><li><i>GBA1</i></li><li>Parkinson’s disease</li></ul>
   </header>
   <aside class="toc" aria-label="On this page"><span class="label">On this page</span><nav></nav></aside>
@@ -144,8 +143,20 @@
 <li><strong>Specialised callers.</strong> Computational tools such as Gauchian have been developed specifically to resolve variants within this complex locus using short-read sequencing. Gauchian distinguishes true <em>GBA1</em> variants from pseudogene-derived artefacts while simultaneously identifying recombinant alleles that are frequently missed by conventional variant-calling pipelines.</li>
 </ul>
 <p>Together, these approaches substantially improve analytical sensitivity and reduce the likelihood that clinically significant <em>GBA1</em> variants will be overlooked.</p>
+<h3 id="a-newer-option-multi-region-joint-detection-in-dragen-46">A newer option: multi-region joint detection in DRAGEN 4.6</h3>
+<p>Illumina's DRAGEN v4.6 brings a third option for short-read data: an enhanced <strong>multi-region joint detection (MRJD)</strong> caller that now includes <em>GBA1</em> in its default panel.</p>
+<p>The idea behind MRJD fits the <em>GBA1</em>–<em>GBAP1</em> problem well. A conventional caller first assigns each read to a single location and then calls variants position by position, so reads that cannot be placed confidently (MAPQ = 0) are effectively lost. MRJD instead treats a gene and its paralogue as one problem. It pools the reads from all homologous copies and infers which haplotypes are present across the copies together. Evidence that a standard pipeline would discard therefore still contributes to the call, and the caller can tell whether a variant sits on the functional gene or on the pseudogene.</p>
+<p>What v4.6 adds, according to Illumina's release notes:</p>
+<ul>
+<li><strong>GBA1 support in MRJD.</strong> <em>GBA</em> has been added to MRJD's default panel. In the release notes' comparison with long-read sequencing across 14 reference cell lines, haplotype concordance for <em>GBA</em> was about 0.98.</li>
+<li><strong>Haplotype-resolved, copy-number-aware calling.</strong> This now covers 16 disease-associated paralogous regions, including <em>PMS2</em>, <em>SMN1</em>/<em>SMN2</em>, <em>CYP2D6</em> and <em>GBA</em>. Outputs include a haplotype-resolved VCF, a phased BAM and gene-specific copy numbers, so the result is not a single genotype but a picture of which copy carries which change.</li>
+<li><strong>Recombinant alleles.</strong> MRJD can detect <em>GBAP1</em>–<em>GBA1</em> hybrid alleles de novo, the gene-conversion events that make this locus so hard to analyse.</li>
+</ul>
+<p class="callout"><strong>Practical notes</strong>
+MRJD for paralogous regions is supported on GRCh38 only, so this is another place where reference choice matters. The separate <em>GBA</em> targeted caller is no longer switched on automatically with variant calling and must be enabled explicitly. Check the release notes for the exact version and options before relying on either in a diagnostic pipeline.</p>
+<p>MRJD does not make long reads redundant. Long reads still observe the haplotype directly, whereas MRJD has to infer it. It does, however, move a large share of <em>GBA1</em> analysis back within reach of standard short-read whole-genome sequencing, which is what most clinical and research cohorts already have.</p>
 <figure class="fig wide"><img src="/images/reference-genome/fig6_solving_two_problems.svg" alt="Summary diagram: ALT ambiguity is fixed by reference choice or ALT-aware alignment; GBAP1 homology needs long reads or Gauchian" loading="lazy">
-<figcaption><strong>Figure 6. Two challenges, two solutions.</strong> ALT-contig ambiguity can be addressed through appropriate reference genome selection or ALT-aware alignment, whereas <em>GBAP1</em> homology often requires long-read sequencing or specialised computational methods such as Gauchian.</figcaption></figure>
+<figcaption><strong>Figure 6. Two challenges, two solutions.</strong> ALT-contig ambiguity can be addressed through appropriate reference genome selection or ALT-aware alignment, whereas <em>GBAP1</em> homology requires long-read sequencing or specialised methods such as Gauchian or DRAGEN's multi-region joint detection.</figcaption></figure>
 
 <h2 id="conclusion">Conclusion</h2>
 <p>The conversation surrounding genetic diagnosis often focuses on sequencing depth, variant callers, or variant interpretation. Yet long before any of these steps, a more fundamental decision has already been made: which reference genome should the sequencing reads be aligned to?</p>
@@ -159,6 +170,8 @@
 <li><a rel="noopener" href="https://gatk.broadinstitute.org/hc/en-us/sections/360007226651-Best-Practices-Workflows">GATK Best Practices for Variant Discovery</a></li>
 <li><a rel="noopener" href="https://humanpangenome.org/">Human Pangenome Reference Consortium</a></li>
 <li><a rel="noopener" href="https://github.com/Illumina/Gauchian">Gauchian on GitHub (Illumina)</a>: accurate analysis of the <em>GBA1</em> locus from short-read sequencing</li>
+<li><a rel="noopener" href="https://developer.illumina.com/news-updates/dragen-v4-6-a-decade-of-genomic-software-innovation-now-available-where-your-data-lives">DRAGEN v4.6 announcement (Illumina)</a></li>
+<li><a rel="noopener" href="https://help.dragen.illumina.com/dragen-v4.6/reference/release-notes-readme/dragen-crn-v4.6.2">DRAGEN v4.6.2 release notes: MRJD, supported regions and concordance</a></li>
 <li><em>GBA1</em> and Parkinson's disease <!-- add a link to your preferred review --></li>
 <li>Oxford Nanopore Technologies in clinical genomics <!-- add a link --></li>
 </ul>
