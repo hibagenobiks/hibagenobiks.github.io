@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="en" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Choosing the Right Reference Genome · Hiba Ali</title>
+<meta name="description" content="How ALT contigs in GRCh38 and the GBAP1 pseudogene can hide pathogenic GBA1 variants — and the different fix each problem needs.">
+<meta name="author" content="Hiba Ali">
+<link rel="canonical" href="https://hibagenobiks.github.io/neurogenomics/reference-genome-genetic-yield/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Choosing the Right Reference Genome · Hiba Ali">
+<meta property="og:description" content="How ALT contigs in GRCh38 and the GBAP1 pseudogene can hide pathogenic GBA1 variants — and the different fix each problem needs.">
+<meta property="og:url" content="https://hibagenobiks.github.io/neurogenomics/reference-genome-genetic-yield/">
+<meta name="twitter:card" content="summary">
+<meta name="theme-color" content="#f7f5f0" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1314" media="(prefers-color-scheme: dark)">
+<script>try{var t=localStorage.getItem("theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='32' fill='%2316191c'/%3E%3Ctext x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='Georgia,serif' font-size='26' fill='%23f7f5f0'%3EHA%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap">
+<link rel="stylesheet" href="/assets/css/style.css">
+<meta property="article:published_time" content="2026-07-02">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="container header-row">
+    <a class="logo" href="/" aria-label="Hiba Ali, home"><span class="logo-mark">HA</span><span class="logo-text">Hiba Ali</span></a>
+    <nav class="nav" aria-label="Main">
+      <ul class="nav-links"><li><a href="/about/">About</a></li><li><a href="/#research">Research</a></li><li><a href="/notes/" aria-current="page">Writing</a></li><li><a href="/about/#publications">Publications</a></li><li><a href="/#contact">Contact</a></li></ul>
+      <button class="icon-btn" type="button" data-theme-toggle aria-label="Switch light/dark theme">
+        <svg class="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></svg>
+        <svg class="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M20 14.6A8.5 8.5 0 0 1 9.4 4 8.5 8.5 0 1 0 20 14.6z"/></svg>
+      </button>
+      <button class="icon-btn menu-btn" type="button" data-menu aria-expanded="false" aria-label="Open menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+<main id="main">
+
+<div class="progress" aria-hidden="true"><span></span></div>
+<div class="container">
+<article class="article">
+  <header class="article-head">
+    <div class="crumbs"><a href="/notes/">Writing</a> / Technical note</div>
+    <h1>Choosing the right reference genome: improving the genetic yield of neurogenomic disorders</h1>
+    <p class="dek">Every sequencing experiment begins with a reference genome. Whether it ends with a diagnosis may depend on choosing the right one.</p>
+    <div class="byline"><span>By <strong>Hiba Ali</strong></span><span>2 July 2026</span><span>~13 min read</span></div>
+    <ul class="chips"><li>Neurogenomics</li><li>Clinical genomics</li><li>Whole-genome sequencing</li><li>Reference genome</li><li><i>GBA1</i></li><li>Parkinson’s disease</li></ul>
+  </header>
+  <aside class="toc" aria-label="On this page"><span class="label">On this page</span><nav></nav></aside>
+  <div class="prose">
+<h2 id="introduction">Introduction</h2>
+<p>Over the past decade, next-generation sequencing (NGS) has transformed the diagnosis of neurological disorders. Whole-genome sequencing (WGS), whole-exome sequencing (WES), and targeted sequencing now allow clinicians and researchers to identify pathogenic variants responsible for disorders such as Parkinson's disease, Alzheimer's disease, amyotrophic lateral sclerosis (ALS), hereditary ataxias, epileptic encephalopathies, and numerous rare neurodevelopmental conditions. Yet, despite these remarkable advances, a significant proportion of patients still undergo comprehensive genetic testing without receiving a molecular diagnosis.</p>
+<p>The likelihood of establishing a genetic diagnosis (commonly referred to as the <strong>genetic yield</strong>) is influenced by multiple factors:</p>
+<ul>
+<li><strong>Clinical phenotype.</strong> Disorders with well-defined syndromic features generally achieve higher diagnostic rates than conditions with broad or overlapping presentations.</li>
+<li><strong>Inheritance.</strong> Familial disorders, particularly those following clear Mendelian inheritance patterns, often achieve a higher diagnostic yield than sporadic cases, where disease may result from complex genetic architecture, reduced penetrance, de novo variants, or environmental influences.</li>
+<li><strong>Study design.</strong> Trio sequencing, in which both parents are analysed alongside the affected individual, consistently improves diagnostic yield by enabling more accurate interpretation of inheritance patterns and de novo variants.</li>
+<li><strong>Sequencing approach.</strong> Whole-genome sequencing offers advantages over whole-exome sequencing through improved detection of structural variants, copy number alterations, and variants residing outside protein-coding regions.</li>
+<li><strong>Repeat expansion analysis.</strong> This has become an essential component of the diagnostic workflow for neurological disorders such as hereditary ataxias and motor neuron disease, where pathogenic repeat expansions account for a substantial proportion of cases missed by conventional short-variant pipelines.</li>
+</ul>
+<p>Much of the discussion surrounding the remaining diagnostic gap has focused on biological challenges: variants of uncertain significance, incomplete knowledge of disease-associated genes, reduced interpretability of non-coding variation, and disease mechanisms that remain poorly understood. These are genuine limitations and continue to drive much of contemporary neurogenomics research.</p>
+<p>However, an equally important contributor often receives far less attention, and it is entirely technical. Not every pathogenic variant is missed because biology is complex. Some are missed because the analysis pipeline never has the opportunity to detect them. Before a variant can be identified, sequencing reads must first be accurately aligned to a reference genome. If those reads cannot be confidently assigned to their correct genomic location, downstream variant callers may fail to recognise genuine pathogenic variants despite their presence in the sequencing data. Consequently, a seemingly simple technical decision, the choice of reference genome, can have a profound impact on diagnostic sensitivity.</p>
+<p class="pull">In some cases, the limiting factor is not the patient’s genome, but the reference genome against which it is analysed.</p>
+<h2 id="understanding-the-reference-genome">Understanding the reference genome</h2>
+<p>Contrary to popular belief, the human reference genome is not the genome of a single individual. Rather, it is a composite assembly representing the best available reconstruction of human genomic sequence.</p>
+<p>Modern reference assemblies contain far more than the 22 autosomes and sex chromosomes. They also include alternative representations of structurally diverse genomic regions, decoy sequences, unlocalized scaffolds, unplaced contigs, and specialised haplotypes designed to improve mapping accuracy in complex regions of the genome. Depending on the intended application, several versions of the human reference genome are commonly used.</p>
+<figure class="fig wide"><img src="/images/reference-genome/fig1_reference_genome_architecture.svg" alt="Diagram of the human reference genome showing the primary assembly extended by ALT contigs, decoys and HLA haplotypes" loading="lazy">
+<figcaption><strong>Figure 1. Architecture of the human reference genome.</strong> The Full Analysis Set extends the primary assembly by incorporating alternative contigs, decoy sequences, HLA haplotypes, and additional auxiliary sequences that improve representation of structurally complex regions.</figcaption></figure>
+
+<div class="compare">
+<div><h4>Primary Assembly (no ALT)</h4><p>Only the canonical chromosomes; excludes alternative representations of highly polymorphic regions.</p>
+<p class="sub">Advantages</p><ul><li>Simpler alignment</li><li>Faster computational performance</li><li>Broad compatibility with most bioinformatics pipelines</li><li>Reduced computational complexity</li></ul>
+<p class="sub">Limitations</p><ul><li>Limited representation of structurally diverse loci</li><li>Reduced mapping accuracy in highly polymorphic regions</li><li>May not adequately represent genomic diversity across populations</li></ul></div>
+<div><h4>GRCh38 Full Analysis Set</h4><p>Extends the primary assembly with additional genomic representations:</p>
+<ul><li>Alternative (ALT) contigs</li><li>Decoy sequences</li><li>HLA haplotypes</li><li>Additional complex genomic representations</li></ul>
+<p class="sub">Trade-off</p><p>A more comprehensive picture of human diversity, recommended by several large-scale sequencing initiatives. However, unless the aligner and variant caller are designed to recognise these sequences, they can <em>reduce</em> variant detection in certain regions.</p></div>
+</div>
+
+<figure class="fig wide"><img src="/images/reference-genome/fig2_primary_vs_full_analysis_set.png" alt="Side-by-side comparison of the Primary Assembly and the GRCh38 Full Analysis Set" loading="lazy">
+<figcaption><strong>Figure 2. Primary Assembly versus Full Analysis Set.</strong> While the Full Analysis Set better represents genomic diversity, it also introduces additional alignment complexity that requires ALT-aware analytical workflows.</figcaption></figure>
+
+<h2 id="what-are-alt-contigs">What are ALT contigs?</h2>
+<p>Alternative contigs (ALT contigs) represent legitimate alternative versions of genomic regions that exhibit substantial structural variation within the human population.</p>
+<p>Rather than forcing sequencing reads from every individual onto a single chromosome sequence, ALT contigs provide additional representations of highly variable genomic loci. These alternative sequences better capture naturally occurring human diversity while preserving the primary chromosomal assembly. ALT contigs are particularly common within genomic regions containing:</p>
+<ul>
+<li>Large insertions or deletions</li>
+<li>Structural rearrangements</li>
+<li>Highly polymorphic haplotypes</li>
+<li>Complex immune loci (such as the HLA region)</li>
+<li>Segmental duplications and duplicated genes</li>
+</ul>
+<p>From a population genomics perspective, ALT contigs provide a more faithful representation of human genetic diversity. However, they also introduce an important analytical challenge that directly influences variant detection, particularly when the downstream alignment and variant-calling pipeline is not ALT-aware.</p>
+<h2 id="when-a-full-reference-genome-can-reduce-diagnostic-sensitivity">When a full reference genome can reduce diagnostic sensitivity</h2>
+<p>One of the most counterintuitive observations in clinical genomics is that a more complete reference genome can occasionally <em>decrease</em> variant detection sensitivity.</p>
+<p>In genomic regions represented by both the primary chromosome and one or more ALT contigs, sequencing reads may align equally well to multiple genomic locations. Because the aligner cannot confidently determine the true origin of these reads, it assigns them a low mapping quality (MAPQ), often <strong>MAPQ = 0</strong>, indicating ambiguous alignment.</p>
+<p>Most variant callers subsequently ignore or substantially down-weight these reads during variant calling. Consequently, pathogenic variants supported exclusively by ambiguously mapped reads may never be evaluated, despite being present within the sequencing data. For genes located within structurally complex loci, this phenomenon may substantially reduce the diagnostic yield if ALT-aware processing is not incorporated into the analytical workflow.</p>
+<p>Reference genome selection should therefore always be considered together with alignment strategy and variant-calling methodology.</p>
+<figure class="fig wide"><img src="/images/reference-genome/fig3_alt_contigs_reduce_yield.png" alt="Reads aligning equally to a primary chromosome region and an ALT contig receive MAPQ 0" loading="lazy">
+<figcaption><strong>Figure 3. ALT contigs can reduce diagnostic yield.</strong> Reads originating from regions represented by both the primary chromosome and an ALT contig align equally well to multiple locations, resulting in low mapping quality (MAPQ = 0). These reads are subsequently ignored during variant calling, reducing diagnostic sensitivity.</figcaption></figure>
+
+<h2 id="gba1-a-case-study">GBA1: a case study</h2>
+<p>Among genes implicated in neurodegenerative disease, <em>GBA1</em> provides one of the clearest examples of why reference genome selection matters.</p>
+<p>Pathogenic variants in <em>GBA1</em> are responsible for Gaucher disease, while heterozygous pathogenic variants represent one of the strongest known genetic risk factors for Parkinson's disease. Despite its clinical importance, however, <em>GBA1</em> remains one of the most technically challenging genes to analyse using short-read sequencing technologies.</p>
+<p>The complexity of the locus arises from <strong>two distinct problems</strong>, each affecting variant detection through a different mechanism. The first is introduced by the reference genome itself, whereas the second reflects the intrinsic genomic architecture of the locus. Although often discussed together, these challenges are fundamentally different and require different analytical solutions.</p>
+<h3 id="challenge-1-alt-contigs-and-ambiguous-read-mapping">Challenge 1: ALT contigs and ambiguous read mapping</h3>
+<p>The GRCh38 Full Analysis Set includes an alternative representation of part of the <em>GBA1</em> locus. Within this region, a stretch of the primary chromosome shares 100% sequence identity with the corresponding ALT contig.</p>
+<p>When sequencing reads originate from this region, the aligner cannot determine whether they belong to the primary chromosome or the alternative contig. Rather than assigning them uniquely, the reads become multi-mapped and receive a mapping quality of zero, indicating that their genomic origin cannot be resolved confidently.</p>
+<p>Although this appears to be a small technical detail, its downstream consequences are substantial. Variant callers such as GATK HaplotypeCaller rely heavily on mapping quality during local assembly. Reads with MAPQ = 0 are excluded or assigned negligible weight during variant calling. As a result, pathogenic variants present within these reads may never be evaluated, not because the sequencing failed, but because the computational pipeline considered the supporting reads unreliable.</p>
+<div class="callout warn">
+<p><strong>The consequence is striking</strong></p>
+<ol>
+<li>The pathogenic variant is present in the raw sequencing data.</li>
+<li>The supporting reads are present in the BAM file.</li>
+<li>The patient genuinely carries the mutation.</li>
+<li>Yet no variant appears in the final VCF.</li>
+</ol>
+</div>
+<p>From the perspective of clinical genetics, this represents a false-negative result, reducing the overall diagnostic yield despite adequate sequencing coverage. Ironically, a reference genome designed to better represent human genetic diversity can reduce variant detection if ALT-aware alignment and downstream processing are not incorporated into the analytical workflow.</p>
+<figure class="fig wide"><img src="/images/reference-genome/fig4_gba1_alt_contig_example.png" alt="Part of the GBA1 locus is identical to an ALT contig, so reads map to both with MAPQ 0" loading="lazy">
+<figcaption><strong>Figure 4. Reference genome-induced mapping ambiguity at the <em>GBA1</em> locus.</strong> A region of the <em>GBA1</em> locus shares identical sequence with an ALT contig in the GRCh38 Full Analysis Set. Reads originating from this region align equally well to both genomic locations, resulting in MAPQ = 0 and preventing reliable variant detection.</figcaption></figure>
+
+<h3 id="challenge-2-the-gbap1-pseudogene">Challenge 2: the GBAP1 pseudogene</h3>
+<p>Independent of the ALT-contig issue, <em>GBA1</em> presents a second challenge due to its genomic architecture.</p>
+<p>Located approximately 16 kb downstream lies <em>GBAP1</em>, a highly homologous pseudogene sharing nearly 96% sequence identity with <em>GBA1</em> across its coding region. Sequence similarity increases to ~98% from intron 8 through exon 11 and into the 3′ untranslated region (3′ UTR), with the highest homology spanning exons 8–11. Within this region, short sequencing reads frequently cannot distinguish between the functional gene and its pseudogene, resulting in ambiguous read alignment, reduced mapping confidence, and inaccurate variant assignment.</p>
+<p>As a consequence, reads originating from <em>GBA1</em> may align to <em>GBAP1</em>, while pseudogene-derived reads may align to <em>GBA1</em>. The situation is further complicated by recurrent gene-conversion and recombinant events between the two loci, producing hybrid alleles that are particularly difficult to resolve using conventional short-read sequencing.</p>
+<p>Unlike the ALT-contig problem, this ambiguity is not introduced by the reference genome. It is an intrinsic property of the human genome itself. Nevertheless, the outcome is similar: reduced confidence in alignment, inaccurate variant assignment, and the possibility of clinically significant variants being overlooked or misclassified.</p>
+<figure class="fig wide"><img src="/images/reference-genome/fig5_gba1_gbap1_pseudogene.png" alt="Map of GBA1 and the downstream GBAP1 pseudogene with high-homology exons 8 to 11 highlighted" loading="lazy">
+<figcaption><strong>Figure 5. The <em>GBA1</em>–<em>GBAP1</em> locus.</strong> Extensive sequence similarity, particularly across exons 8–11, creates alignment ambiguity for short sequencing reads, complicating accurate variant detection.</figcaption></figure>
+
+<h2 id="addressing-the-two-challenges">Addressing the two challenges</h2>
+<p>Although both challenges ultimately reduce diagnostic sensitivity, they arise from fundamentally different mechanisms and therefore require distinct analytical strategies.</p>
+<h3 id="alt-contig-mapping-ambiguity">ALT-contig mapping ambiguity</h3>
+<p>For the ALT-contig mapping issue, careful selection of the reference genome is essential. In analyses where ALT-aware processing is unavailable or not optimally configured, aligning sequencing reads against the Primary Assembly may reduce unnecessary multi-mapping in affected regions. Conversely, when using the GRCh38 Full Analysis Set, the alignment and variant-calling pipeline should be specifically designed to recognise and appropriately process ALT contigs.</p>
+<p>The choice of reference genome should therefore never be considered independently of the downstream computational workflow.</p>
+<h3 id="the-gbap1-pseudogene">The GBAP1 pseudogene</h3>
+<p>The <em>GBAP1</em> pseudogene, however, cannot be resolved simply by changing the reference genome. Instead, orthogonal approaches are required:</p>
+<ul>
+<li><strong>Long reads.</strong> Targeted amplicon sequencing combined with Oxford Nanopore Technologies (ONT) long-read sequencing allows individual DNA molecules to span unique regions flanking the homologous sequence, enabling unambiguous assignment of reads to either <em>GBA1</em> or <em>GBAP1</em>. Unlike short reads, long reads provide sufficient genomic context to distinguish the functional gene from its pseudogene and to identify recombinant alleles.</li>
+<li><strong>Specialised callers.</strong> Computational tools such as Gauchian have been developed specifically to resolve variants within this complex locus using short-read sequencing. Gauchian distinguishes true <em>GBA1</em> variants from pseudogene-derived artefacts while simultaneously identifying recombinant alleles that are frequently missed by conventional variant-calling pipelines.</li>
+</ul>
+<p>Together, these approaches substantially improve analytical sensitivity and reduce the likelihood that clinically significant <em>GBA1</em> variants will be overlooked.</p>
+<figure class="fig wide"><img src="/images/reference-genome/fig6_solving_two_problems.svg" alt="Summary diagram: ALT ambiguity is fixed by reference choice or ALT-aware alignment; GBAP1 homology needs long reads or Gauchian" loading="lazy">
+<figcaption><strong>Figure 6. Two challenges, two solutions.</strong> ALT-contig ambiguity can be addressed through appropriate reference genome selection or ALT-aware alignment, whereas <em>GBAP1</em> homology often requires long-read sequencing or specialised computational methods such as Gauchian.</figcaption></figure>
+
+<h2 id="conclusion">Conclusion</h2>
+<p>The conversation surrounding genetic diagnosis often focuses on sequencing depth, variant callers, or variant interpretation. Yet long before any of these steps, a more fundamental decision has already been made: which reference genome should the sequencing reads be aligned to?</p>
+<p>That single decision influences every downstream stage of analysis. It determines where sequencing reads map, how confidently they are aligned, which variants are ultimately called, and whether a patient receives a molecular diagnosis.</p>
+<p>As sequencing moves deeper into complex regions of the genome (regions enriched for structural variation, segmental duplications, alternative haplotypes, and pseudogenes), the reference genome can no longer be viewed as a passive coordinate system. It is an active component of the diagnostic pipeline.</p>
+<p>The <em>GBA1</em> locus exemplifies this principle. Here, one analytical challenge arises from the inclusion of ALT contigs within the reference assembly, while another stems from the presence of a highly homologous pseudogene. Although distinct in origin, both can lead to missed pathogenic variants if not appropriately recognised and addressed.</p>
+<p>Improving the genetic yield of neurogenomic disorders will require more than increasingly powerful sequencing technologies. It will require thoughtful integration of sequencing platforms, alignment strategies, specialised computational tools, and, perhaps most importantly, the recognition that choosing the right reference genome is itself a critical diagnostic decision.</p>
+<h2 id="further-reading">Further reading</h2>
+<ul>
+<li><a rel="noopener" href="https://www.ncbi.nlm.nih.gov/grc/human">Genome Reference Consortium: GRCh38</a></li>
+<li><a rel="noopener" href="https://gatk.broadinstitute.org/hc/en-us/sections/360007226651-Best-Practices-Workflows">GATK Best Practices for Variant Discovery</a></li>
+<li><a rel="noopener" href="https://humanpangenome.org/">Human Pangenome Reference Consortium</a></li>
+<li><a rel="noopener" href="https://github.com/Illumina/Gauchian">Gauchian on GitHub (Illumina)</a>: accurate analysis of the <em>GBA1</em> locus from short-read sequencing</li>
+<li><em>GBA1</em> and Parkinson's disease <!-- add a link to your preferred review --></li>
+<li>Oxford Nanopore Technologies in clinical genomics <!-- add a link --></li>
+</ul>
+    <div class="cite">
+      <span class="label">Cite this note</span>
+      <p id="cite-text">Ali H. (2026). Choosing the Right Reference Genome: Improving the Genetic Yield of Neurogenomic Disorders. <em>Neurogenomics Notes</em>. https://hibagenobiks.github.io/neurogenomics/reference-genome-genetic-yield/</p>
+      <button class="copy" type="button" data-copy="#cite-text">Copy citation</button>
+    </div>
+  </div>
+  <footer class="article-foot">
+    <a href="/notes/">← All notes</a>
+    <a href="/about/">About the author →</a>
+  </footer>
+</article>
+</div>
+</main>
+<footer class="site-footer">
+  <div class="container footer-row">
+    <p>© <span id="yr">2026</span> Hiba Ali · Neurogenetics</p>
+    <ul class="links-inline">
+      <li><a href="/about/">About</a></li>
+      <li><a href="/notes/">Writing</a></li>
+      <li><a href="https://github.com/hibagenobiks">GitHub</a></li>
+      <!-- <li><a href="mailto:YOUR-EMAIL">Email</a></li> -->
+      <!-- <li><a href="https://orcid.org/YOUR-ORCID">ORCID</a></li> -->
+      <!-- <li><a href="https://www.linkedin.com/in/YOUR-LINKEDIN">LinkedIn</a></li> -->
+    </ul>
+  </div>
+</footer>
+<script>document.getElementById("yr").textContent=new Date().getFullYear()</script>
+<script src="/assets/js/site.js" defer></script>
+</body>
+</html>

@@ -1,180 +1,116 @@
-# Hiba Ali — personal website
+# hibagenobiks.github.io
 
-A lightweight, custom Jekyll site for GitHub Pages: no profile photo, serif
-"journal" typography, automatic dark mode, a table of contents on long notes,
-tag filtering, and a one-click citation box on every note.
+Personal website of Hiba Ali. It is plain HTML and CSS with no Jekyll, no theme and no build step.
 
-Why custom instead of AcademicPages? AcademicPages is built on a large theme
-(Minimal Mistakes) with hundreds of files you never touch, sample posts that
-leak into "You may also enjoy", and a sidebar built around a photo. This site
-has ~25 files, every one of which you can read and understand, so changing
-something never means hunting through a theme.
+**Why plain HTML?** With Jekyll, GitHub runs a build step that turns your files
+into a website. If anything in that step goes wrong, you get a half-styled page
+like the one you saw. Here, what is in the folder *is* the website. The empty
+`.nojekyll` file tells GitHub Pages to skip Jekyll and serve the files exactly
+as they are.
 
----
+## Folder map
 
-## 1. What's in the folder
-
-| Path | What it is | Do you edit it? |
-|---|---|---|
-| `_config.yml` | Your name, bio, social links, site address | **Yes, first** |
-| `_data/navigation.yml` | Top menu | Sometimes |
-| `_data/publications.yml` | Your papers (one entry each) | **Yes** |
-| `index.md` | Extra text on the home page | Optional |
-| `cv.md`, `talks.md`, `teaching.md` | Those pages | **Yes** (replace placeholders) |
-| `_posts/` | Your notes/articles, one Markdown file each | **This is where you write** |
-| `_templates/new-note.md` | Copy this to start a new note | No (copy it) |
-| `images/` | Figures (one folder per note keeps things tidy) | Yes |
-| `files/` | PDFs: CV, slides, posters | Yes |
-| `_layouts/`, `_includes/` | Page templates (HTML) | Rarely |
-| `assets/css/main.css` | All styling; change `--accent` to recolour | Rarely |
-| `assets/js/main.js` | Dark-mode toggle, TOC, tag filter | No |
-
-Folders starting with `_` are Jekyll's "special" folders: they are used to
-*build* the site but are not published as pages themselves.
-
----
-
-## 2. Replacing your current site (one-time)
-
-You already have the repo `hibagenobiks.github.io` on your laptop. Do the
-switch on a **branch**, so your current live site stays untouched until you
-are happy with the new one. (GitHub Pages publishes only the `main`/`master`
-branch, so a branch is a safe sandbox.)
-
-```bash
-cd ~/path/to/hibagenobiks.github.io
-
-git status                    # should say "nothing to commit"; commit or stash first if not
-git switch -c redesign        # new branch called "redesign"
-
-# Keep your real figures and PDFs somewhere safe first
-mkdir -p ~/site-backup
-cp -r images files ~/site-backup/ 2>/dev/null
-
-# If you use a custom domain, keep its CNAME file too
-[ -f CNAME ] && cp CNAME ~/site-backup/
-
-# Remove the old theme files from this branch (they stay safe on main)
-git rm -r -q .
+```
+index.html                         Home page (hero, research, writing, contact)
+about/index.html                   About me: story, experience, toolkit, publications
+notes/index.html                   List of all notes
+neurogenomics/reference-genome-genetic-yield/index.html
+                                   Your reference-genome article (same address as before)
+_new-note-template.html            Copy this to start a new note
+assets/css/style.css               All the styling (colours at the top)
+assets/js/site.js                  Dark mode, mobile menu, table of contents, copy button
+images/                            Figures (one folder per note)
+files/                             PDFs (CV, posters, slides)
+404.html                           "Page not found" page
+.nojekyll                          Tells GitHub not to run Jekyll (keep it!)
 ```
 
-Now unzip `hiba-site.zip` and copy **its contents** (not the folder itself) into
-the repo folder, then put your real figures back:
+Every page's folder contains an `index.html`, so addresses look clean:
+`/about/` instead of `/about.html`.
+
+## Put it live (one time)
 
 ```bash
-cp -r ~/Downloads/hiba-site/. .     # adjust the path to where you unzipped
-cp ~/site-backup/images/<your-figure-files> images/reference-genome/
-[ -f ~/site-backup/CNAME ] && cp ~/site-backup/CNAME .
-```
+cd ~/meow/hibagenobiks.github.io
+git switch main
+git status                                   # should be clean
 
-### Your figures
+# Remove everything EXCEPT the .git folder and your images folder
+find . -mindepth 1 -maxdepth 1 ! -name .git ! -name images -exec rm -rf {} +
 
-The article uses `images/reference-genome/figure1.png` … `figure6.png`.
-Placeholder images with those names are included so the page doesn't look
-broken. Either:
+# Copy the new site in (the dot-slash-dot copies hidden files like .nojekyll too)
+cp -R ~/Downloads/hiba-static/. .
 
-- rename your real figures to `figure1.png` … `figure6.png` and overwrite the
-  placeholders, **or**
-- keep your filenames and change the `src="..."` in each
-  `{% include figure.html ... %}` line of
-  `_posts/2026-07-02-reference-genome-genetic-yield.md`.
-
-### Your old article link still works
-
-The note's front matter has
-`permalink: /neurogenomics/reference-genome-genetic-yield/`, the same address
-as on your old site, so anyone who already has (or cited) that link still
-lands on the article. New notes get addresses like `/notes/<title>/`.
-
----
-
-## 3. Preview on your laptop before publishing (recommended)
-
-Why: GitHub takes 1–2 minutes per build and only shows errors in a log. A local
-preview shows every change in about a second.
-
-One-time setup (macOS):
-
-```bash
-brew install ruby                      # macOS's built-in Ruby is too old
-echo 'export PATH="/opt/homebrew/opt/ruby/bin:$PATH"' >> ~/.zshrc && source ~/.zshrc
-gem install bundler
-bundle install                         # run inside the repo; installs Jekyll exactly as GitHub uses it
-```
-
-Every time:
-
-```bash
-bundle exec jekyll serve --livereload
-```
-
-Open <http://localhost:4000>. The page reloads when you save a file.
-(Restart the command after editing `_config.yml`, because it's read only at startup.)
-
----
-
-## 4. Publish
-
-```bash
+ls images/reference-genome                    # your 6 figures should be listed
 git add -A
-git commit -m "Redesign site: custom layout, no photo, new notes section"
-git push -u origin redesign
-```
-
-Check it on GitHub, then make it live by merging into your main branch:
-
-```bash
-git switch main          # or: git switch master
-git merge redesign
+git commit -m "New static website"
 git push
 ```
 
-On GitHub → your repo → **Settings → Pages**, check that **Source** is
-"Deploy from a branch" and the branch is `main` (or `master`), folder `/ (root)`.
-The site updates at <https://hibagenobiks.github.io> within a couple of minutes
-(**Actions** tab shows progress and any errors).
+Then on GitHub, go to your repo → **Settings → Pages**. Set **Source** to
+**Deploy from a branch**, with branch `main` and folder `/ (root)`. The site
+updates within 1–2 minutes. The **Actions** tab shows a green ✓ when it's live.
+Do a hard refresh (Cmd+Shift+R) to bypass your browser's cache.
 
----
+## Preview on your laptop
 
-## 5. Writing a new note
+```bash
+cd ~/meow/hibagenobiks.github.io
+python3 -m http.server 8000
+```
 
-1. Copy `_templates/new-note.md` into `_posts/` and name it
-   `YYYY-MM-DD-short-title.md`. The date in the name is the publish date.
-2. Fill in the front matter (title, description, tags).
-3. Write in Markdown. Available extras:
+Open <http://localhost:8000>. Press Ctrl+C in Terminal to stop.
 
-   - **Highlight box:** a paragraph starting with a bold heading, followed by `{: .callout}` (or `{: .callout .warn}` for amber) on the next line.
-   - **Box with a list inside:** wrap it in `<div class="callout" markdown="1"> … </div>`.
-   - **Figure with caption:** `{% include figure.html src="/images/folder/fig.png" alt="..." caption="**Figure 1.** ..." %}`
-   - **Equations:** set `math: true`, then write `$...$` or `$$...$$`.
-   - **Code, tables, quotes:** normal Markdown.
+Why a server, and not double-clicking `index.html`? The pages link to
+`/assets/css/style.css` with a leading `/`, meaning "from the root of the site".
+On GitHub that root is `hibagenobiks.github.io`. When you double-click a file,
+the browser treats your whole hard drive as the root, so it can't find the CSS.
+The little Python server makes your folder the root, just like GitHub does.
 
-4. Put figures in `images/<note-name>/`. Use PNG or SVG, roughly 1400 px wide.
-5. Preview, commit, push.
+## Things to fill in
 
-Tags are free text. Every tag you use becomes a filter button on the Notes page.
+Search the files for `YOUR-` and `EDIT`. All of these are HTML comments, so
+they are invisible on the site until you uncomment them:
 
----
+- **Email, LinkedIn, ORCID:** in `index.html` (contact box) and in the footer of
+  every page. To uncomment, delete the `<!--` and `-->` around the line.
+- **Journal DOI** of your npj paper: in `index.html` and `about/index.html`.
+- **Education:** in `about/index.html` (there's a ready block to uncomment).
+- **City of the Universitätsklinikum:** search for `Universitätsklinikum` if you
+  want to add it, e.g. "Universitätsklinikum Ulm".
 
-## 6. Common tweaks
+## Writing a new note
 
-- **Change the colour:** edit `--accent` (light mode) and the second `--accent`
-  (dark mode) at the top of `assets/css/main.css`.
-- **Add a menu item:** add a page file (e.g. `outreach.md` with
-  `permalink: /outreach/`) and a line in `_data/navigation.yml`.
-- **Add your CV PDF:** put it in `files/` and set `cv_pdf: /files/Hiba_Ali_CV.pdf`
-  in `_config.yml`. A download button appears on the CV page.
-- **Hide reading time:** `show_reading_time: false` in `_config.yml`.
+1. Make a folder `notes/my-note-title/`. Use lowercase with dashes, because the
+   folder name becomes the web address.
+2. Copy `_new-note-template.html` into it and rename the copy to `index.html`.
+3. Edit everything marked `EDIT`, write your note, and delete the example blocks you
+   don't need. Delete the `noindex` line near the top. That line stops Google
+   indexing the template, and you do want your note indexed.
+4. Put figures in `images/my-note-title/`.
+5. Add the note to the list in `notes/index.html` by copying an existing
+   `<li class="note-item">` block, and do the same on the home page and About page if you like.
+6. Preview, then `git add -A && git commit -m "New note: …" && git push`.
 
-## 7. If something breaks
+Building blocks available inside a note:
 
-- *Site shows the old version:* hard-refresh (Cmd+Shift+R); GitHub's cache can lag a minute or two.
-- *Build failed (red ✗ on the Actions tab):* open the failed run; the error names the file and line. A typical cause is a missing closing `---` or a `"` inside a title (wrap the title in single quotes, or escape it).
-- *A note doesn't appear:* its date in the file name is in the future, or the file isn't in `_posts/`.
+| You want | Write |
+|---|---|
+| Section heading (appears in the side menu) | `<h2 id="short-id">Title</h2>` |
+| Highlighted box | `<div class="callout"><strong>Label</strong><p>Text</p></div>` |
+| Warning box (amber) | `<div class="callout warn">…</div>` |
+| Big pull quote | `<p class="pull">Sentence</p>` |
+| Figure with caption | the `<figure class="fig wide">` block in the template |
+| Two-column comparison | `<div class="compare"><div>…</div><div>…</div></div>` |
+
+## Changing the look
+
+All colours are at the top of `assets/css/style.css`. `--accent` is the teal,
+and `--accent-2` is the terracotta. The dark-mode versions are in the
+`[data-theme="dark"]` block just below. Change both if you re-colour.
 
 ## Learn more
 
-- Jekyll docs, especially "Front Matter", "Posts" and "Includes": <https://jekyllrb.com/docs/>
-- GitHub Pages and Jekyll: <https://docs.github.com/en/pages/setting-up-a-github-pages-site-with-jekyll>
-- Markdown reference used here (kramdown, including the `{: .class}` syntax): <https://kramdown.gettalong.org/syntax.html>
-- Git basics (branches, merge): <https://git-scm.com/book/en/v2/Git-Branching-Basic-Branching-and-Merging>
+- HTML basics (MDN): <https://developer.mozilla.org/en-US/docs/Learn/HTML>
+- CSS basics (MDN): <https://developer.mozilla.org/en-US/docs/Learn/CSS>
+- GitHub Pages, publishing from a branch: <https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site>
