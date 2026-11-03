@@ -1,0 +1,15 @@
+# One entry per publication, newest first.
+# Fields: title, authors, venue, year, type (article | preprint | review | abstract),
+#         doi, url, pdf, code, note, highlight (true = show on home page)
+# Your own name is bolded automatically wherever it matches site.author.name.
+
+- title: "Whole-genome sequencing of 197 cases with Parkinson's disease reveals novel pathogenic variants in the Indian population"
+  authors: "Hiba Ali, Banashree Mondal, Andie Pinto, Camellia Sarkar, Bikram Kumar Panda, Khader Valli Rupanagudi, Vikram V. Holla, Tarunya Nagaraj, Shubha GS Bhat, Shweta Prasad, Mahima Bhardwaj, Pooja Mailankody, Rohan R. Mahale, Nitish Kamble, Ravi Yadav, Pramod Kumar Pal, Albert Stezin, Latha Diwakar, Shweta Ramdas"
+  venue: "npj Parkinson's Disease 12, 264"
+  year: 2026
+  type: article
+  doi: ""            # paste the journal DOI here, e.g. 10.1038/s41531-026-xxxxx-x
+  url: ""            # or a direct link to the article page
+  preprint: "https://doi.org/10.1101/2025.10.19.25338055"
+  note: "Open access"
+  highlight: true

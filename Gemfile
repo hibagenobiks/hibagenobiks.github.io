@@ -1,13 +1,7 @@
-source 'https://rubygems.org'
+source "https://rubygems.org"
 
-group :jekyll_plugins do
-  gem 'jekyll'
-  gem 'jekyll-feed'
-  gem 'jekyll-sitemap'
-  gem 'jekyll-redirect-from'
-  gem 'jemoji'
-  gem 'webrick', '~> 1.8'
-end
-
-gem 'github-pages'
-gem 'connection_pool', '2.5.0'
+# The `github-pages` gem pins exactly the Jekyll + plugin versions that
+# GitHub uses to build your site, so what you preview locally matches
+# what goes live.
+gem "github-pages", group: :jekyll_plugins
+gem "webrick"   # needed for `jekyll serve` on Ruby 3+

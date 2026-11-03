@@ -1,0 +1,17 @@
+{%- assign p = include.post -%}
+{%- assign words = p.content | number_of_words -%}
+{%- assign minutes = words | divided_by: site.words_per_minute | at_least: 1 -%}
+<article class="post-card" data-tags="{{ p.tags | join: '|' | downcase }}">
+  <div class="post-card-meta">
+    {%- if p.kind -%}<span class="kind">{{ p.kind }}</span>{%- endif -%}
+    <time datetime="{{ p.date | date_to_xmlschema }}">{{ p.date | date: "%-d %b %Y" }}</time>
+    {%- if site.show_reading_time -%}<span>{{ minutes }} min read</span>{%- endif -%}
+  </div>
+  <h3 class="post-card-title"><a href="{{ p.url | relative_url }}">{{ p.title }}</a></h3>
+  {%- if p.description -%}<p class="post-card-desc">{{ p.description }}</p>{%- endif -%}
+  {%- if p.tags.size > 0 -%}
+  <ul class="tag-list">
+    {%- for t in p.tags limit: 4 -%}<li><a href="{{ '/notes/' | relative_url }}?tag={{ t | slugify }}">{{ t }}</a></li>{%- endfor -%}
+  </ul>
+  {%- endif -%}
+</article>
